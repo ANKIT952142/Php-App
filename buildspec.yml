@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      php: 8.2
+    commands:
+      - apt-get update && apt-get install -y zip
+  build:
+    commands:
+      - echo Build has started `date`
+      - zip -r myphpapp.zip .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - aws s3 cp myphpapp.zip s3://myphpbucketankit45/myphpapp.zip
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
+
